@@ -4,28 +4,31 @@ import Mocks from "./pages/Mocks";
 
 export default function App() {
   return (
-    <div
-      style={{
-        background: "black",
-        color: "white",
-        minHeight: "100vh",
-        padding: "20px",
-      }}
-    >
-      <nav style={{ marginBottom: "20px" }}>
-        <Link to="/" style={{ marginRight: "20px", color: "yellow" }}>
-          Home
-        </Link>
+    <div className="min-h-screen bg-slate-950 text-white">
+      <header className="border-b border-slate-800 bg-slate-900">
+        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+          <h1 className="font-bold text-xl text-amber-400">
+            QuizArena
+          </h1>
 
-        <Link to="/mocks" style={{ color: "yellow" }}>
-          Mocks
-        </Link>
-      </nav>
+          <nav className="flex gap-4">
+            <Link to="/" className="hover:text-amber-400">
+              Home
+            </Link>
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/mocks" element={<Mocks />} />
-      </Routes>
+            <Link to="/mocks" className="hover:text-amber-400">
+              Mocks
+            </Link>
+          </nav>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto p-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/mocks" element={<Mocks />} />
+        </Routes>
+      </main>
     </div>
   );
 }
