@@ -13,14 +13,19 @@ export default function App() {
           </h1>
 
           <nav className="flex gap-4">
-            <Link to="/" className="hover:text-amber-400">
-              Home
-            </Link>
+  <Link to="/" className="hover:text-amber-400">
+    Home
+  </Link>
 
-            <Link to="/mocks" className="hover:text-amber-400">
-              Mocks
-            </Link>
-          </nav>
+  <Link to="/mocks" className="hover:text-amber-400">
+    Mocks
+  </Link>
+
+  <Link to="/quiz" className="hover:text-amber-400">
+    Quiz
+  </Link>
+</nav>
+          
         </div>
       </header>
 
