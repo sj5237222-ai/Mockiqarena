@@ -1,49 +1,40 @@
+import { Link } from "react-router-dom";
+
 const mocks = [
-  {
-    id: 1,
-    title: "NEET Full Mock 1",
-    questions: 180,
-    duration: "3 Hours",
-  },
-  {
-    id: 2,
-    title: "Physics Test",
-    questions: 45,
-    duration: "45 Min",
-  },
+  { id: 1, title: "NEET Full Mock Test 1", q: 90 },
+  { id: 2, title: "Physics Chapter Test", q: 45 },
+  { id: 3, title: "Chemistry Practice Test", q: 60 },
 ];
 
 export default function Mocks() {
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">
-        Mock Tests
-      </h1>
+    <div className="space-y-4">
 
-      <div className="grid md:grid-cols-2 gap-4">
-        {mocks.map((mock) => (
-          <div
-            key={mock.id}
-            className="bg-slate-900 border border-slate-800 rounded-xl p-5"
-          >
-            <h2 className="text-xl font-bold text-amber-400">
-              {mock.title}
-            </h2>
+      <h1 className="text-2xl font-bold">Mock Tests</h1>
 
-            <p className="text-slate-400 mt-2">
-              {mock.questions} Questions
+      {mocks.map((m) => (
+        <div
+          key={m.id}
+          className="bg-slate-900 border border-slate-800 p-4 rounded-xl flex justify-between"
+        >
+
+          <div>
+            <h2 className="font-bold">{m.title}</h2>
+            <p className="text-slate-400 text-sm">
+              {m.q} Questions
             </p>
-
-            <p className="text-slate-400">
-              {mock.duration}
-            </p>
-
-            <button className="mt-4 px-4 py-2 bg-amber-500 text-black rounded-lg font-semibold">
-              Start Test
-            </button>
           </div>
-        ))}
-      </div>
+
+          <Link
+            to="/quiz"
+            className="bg-amber-500 text-black px-4 py-2 rounded"
+          >
+            Start
+          </Link>
+
+        </div>
+      ))}
+
     </div>
   );
 }
