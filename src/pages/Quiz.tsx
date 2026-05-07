@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 const questions = [
   {
     id: 1,
+    subject: "Physics",
     question: "SI unit of Force is?",
     options: ["Newton", "Joule", "Pascal", "Watt"],
     answer: 0,
   },
   {
     id: 2,
+    subject: "Physics",
     question: "Velocity is a?",
     options: [
       "Scalar quantity",
@@ -20,6 +22,7 @@ const questions = [
   },
   {
     id: 3,
+    subject: "Chemistry",
     question: "pH of pure water is?",
     options: ["5", "6", "7", "8"],
     answer: 2,
@@ -36,6 +39,21 @@ export default function Quiz() {
   const [submitted, setSubmitted] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState(180);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("quizAnswers");
+
+    if (saved) {
+      setAnswers(JSON.parse(saved));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "quizAnswers",
+      JSON.stringify(answers)
+    );
+  }, [answers]);
 
   useEffect(() => {
     if (submitted) return;
@@ -60,27 +78,101 @@ export default function Quiz() {
     setAnswers(copy);
   };
 
-  const score = answers.reduce((acc, ans, i) => {
-    return ans === questions[i].answer ? acc + 4 : acc;
-  }, 0);
+  let score = 0;
+  let correct = 0;
+  let wrong = 0;
+  let unattempted = 0;
+
+  answers.forEach((ans, i) => {
+    if (ans === -1) {
+      unattempted++;
+    } else if (ans === questions[i].answer) {
+      score += 4;
+      correct++;
+    } else {
+      score -= 1;
+      wrong++;
+    }
+  });
+
+  const accuracy =
+    correct + wrong === 0
+      ? 0
+      : Math.round(
+          (correct / (correct + wrong)) * 100
+        );
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
   if (submitted) {
     return (
-      <div className="max-w-2xl mx-auto bg-slate-900 p-6 rounded-xl border border-slate-800">
-        <h1 className="text-3xl font-bold text-emerald-400">
-          Test Submitted ✅
-        </h1>
+      <div className="space-y-6">
+        <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
+          <h1 className="text-3xl font-bold text-emerald-400">
+            Test Submitted ✅
+          </h1>
 
-        <p className="mt-4 text-xl">
-          Your Score: {score}
-        </p>
+          <p className="text-4xl font-bold mt-4 text-amber-400">
+            {score} Marks
+          </p>
 
-        <p className="text-slate-400 mt-2">
-          Correct Answers: {score / 4} / {questions.length}
-        </p>
+          <div className="grid md:grid-cols-4 gap-4 mt-6">
+            <Card title="Correct" value={correct} color="text-emerald-400" />
+            <Card title="Wrong" value={wrong} color="text-red-400" />
+            <Card title="Unattempted" value={unattempted} color="text-slate-400" />
+            <Card title="Accuracy" value={`${accuracy}%`} color="text-amber-400" />
+          </div>
+        </div>
+
+        <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
+          <h2 className="text-2xl font-bold mb-4">
+            Question Review
+          </h2>
+
+          <div className="space-y-4">
+            {questions.map((q, idx) => {
+              const userAns = answers[idx];
+
+              const correctAns = q.answer;
+
+              const isCorrect = userAns === correctAns;
+
+              return (
+                <div
+                  key={q.id}
+                  className={`p-4 rounded-lg border ${
+                    userAns === -1
+                      ? "border-slate-700"
+                      : isCorrect
+                      ? "border-emerald-500"
+                      : "border-red-500"
+                  }`}
+                >
+                  <p className="font-semibold">
+                    Q{idx + 1}. {q.question}
+                  </p>
+
+                  <p className="text-sm mt-2">
+                    Your Answer:{" "}
+                    <span className="text-amber-400">
+                      {userAns === -1
+                        ? "Not Attempted"
+                        : q.options[userAns]}
+                    </span>
+                  </p>
+
+                  <p className="text-sm">
+                    Correct Answer:{" "}
+                    <span className="text-emerald-400">
+                      {q.options[correctAns]}
+                    </span>
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     );
   }
@@ -98,6 +190,10 @@ export default function Quiz() {
           </div>
         </div>
 
+        <p className="text-sm text-fuchsia-400 mb-2">
+          {q.subject}
+        </p>
+
         <h2 className="text-xl mb-6">
           {q.question}
         </h2>
@@ -107,7 +203,7 @@ export default function Quiz() {
             <button
               key={idx}
               onClick={() => selectOption(idx)}
-              className={`w-full text-left p-4 rounded-lg border ${
+              className={`w-full text-left p-4 rounded-lg border transition ${
                 answers[current] === idx
                   ? "bg-amber-500 text-black border-amber-500"
                   : "bg-slate-800 border-slate-700 hover:border-amber-400"
@@ -136,7 +232,10 @@ export default function Quiz() {
           </button>
 
           <button
-            onClick={() => setSubmitted(true)}
+            onClick={() => {
+              localStorage.removeItem("quizAnswers");
+              setSubmitted(true);
+            }}
             className="ml-auto px-4 py-2 bg-emerald-600 rounded-lg font-semibold"
           >
             Submit Test
@@ -168,3 +267,25 @@ export default function Quiz() {
     </div>
   );
 }
+
+function Card({
+  title,
+  value,
+  color,
+}: {
+  title: string;
+  value: any;
+  color: string;
+}) {
+  return (
+    <div className="bg-slate-800 p-4 rounded-xl">
+      <p className="text-slate-400 text-sm">
+        {title}
+      </p>
+
+      <h2 className={`text-2xl font-bold mt-2 ${color}`}>
+        {value}
+      </h2>
+    </div>
+  );
+                  }
