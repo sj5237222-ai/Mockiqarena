@@ -2,70 +2,84 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen text-white bg-slate-950">
 
-      {/* HERO SECTION */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <h1 className="text-4xl font-bold text-amber-400">
-          Welcome to QuizArena 🚀
-        </h1>
+      {/* HEADER */}
+      <div className="max-w-5xl mx-auto p-6">
 
-        <p className="text-slate-300 mt-3">
-          Practice NEET mock tests, daily DPPs and compete with toppers.
-        </p>
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-amber-400">
+            QuizArena
+          </h1>
 
-        {/* START BUTTON */}
-        <Link
-          to="/quiz"
-          className="inline-block mt-5 bg-amber-500 text-black px-5 py-2 rounded-lg font-bold"
-        >
-          Start Quiz
-        </Link>
-      </div>
-
-      {/* STATS SECTION */}
-      <div className="grid md:grid-cols-3 gap-4">
-
-        <div className="bg-slate-900 p-5 rounded-xl border border-slate-800">
-          <h2 className="text-xl font-bold">5000+</h2>
-          <p className="text-slate-400">Questions</p>
+          <button className="px-4 py-2 rounded bg-slate-800">
+            Login
+          </button>
         </div>
 
-        <div className="bg-slate-900 p-5 rounded-xl border border-slate-800">
-          <h2 className="text-xl font-bold">100+</h2>
-          <p className="text-slate-400">Mock Tests</p>
+        {/* HERO */}
+        <div className="mt-12 bg-slate-900 border border-slate-800 p-8 rounded-2xl">
+
+          <h2 className="text-4xl font-bold">
+            Crack NEET with
+            <span className="text-amber-400"> Smart Practice</span>
+          </h2>
+
+          <p className="text-slate-400 mt-3">
+            Mock tests • DPPs • Analytics • Weak topic improvement
+          </p>
+
+          <Link
+            to="/quiz"
+            className="inline-block mt-6 bg-amber-500 text-black px-6 py-3 rounded-xl font-bold"
+          >
+            Start Mock Test
+          </Link>
         </div>
 
-        <div className="bg-slate-900 p-5 rounded-xl border border-slate-800">
-          <h2 className="text-xl font-bold">24/7</h2>
-          <p className="text-slate-400">Practice Mode</p>
+        {/* STATS */}
+        <div className="grid md:grid-cols-3 gap-4 mt-10">
+
+          <Card title="Questions" value="5000+" />
+          <Card title="Mocks" value="100+" />
+          <Card title="Students" value="50K+" />
+
         </div>
 
-      </div>
+        {/* SUBJECTS */}
+        <div className="mt-12">
+          <h3 className="text-2xl font-bold mb-4">
+            Subjects
+          </h3>
 
-      {/* SUBJECT SECTION */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
-        <h2 className="text-2xl font-bold text-white mb-4">
-          Subjects
-        </h2>
+          <div className="grid md:grid-cols-3 gap-4">
 
-        <div className="grid md:grid-cols-3 gap-4">
+            <Subject name="Physics" color="blue" />
+            <Subject name="Chemistry" color="green" />
+            <Subject name="Biology" color="pink" />
 
-          <div className="bg-blue-600/20 border border-blue-500 p-4 rounded-xl">
-            Physics
           </div>
-
-          <div className="bg-green-600/20 border border-green-500 p-4 rounded-xl">
-            Chemistry
-          </div>
-
-          <div className="bg-pink-600/20 border border-pink-500 p-4 rounded-xl">
-            Biology
-          </div>
-
         </div>
-      </div>
 
+      </div>
+    </div>
+  );
+}
+
+function Card({ title, value }: any) {
+  return (
+    <div className="bg-slate-900 border border-slate-800 p-5 rounded-xl">
+      <p className="text-slate-400">{title}</p>
+      <h2 className="text-2xl font-bold text-amber-400">{value}</h2>
+    </div>
+  );
+}
+
+function Subject({ name, color }: any) {
+  return (
+    <div className={`p-5 rounded-xl bg-${color}-600/20 border border-${color}-500`}>
+      <h2 className="font-bold">{name}</h2>
+      <p className="text-sm text-slate-400">Practice MCQs & PYQs</p>
     </div>
   );
 }
