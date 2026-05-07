@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Mocks from "./pages/Mocks";
+import Quiz from "./pages/Quiz";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mocks" element={<Mocks />} />
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
       </main>
     </div>
