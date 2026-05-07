@@ -4,37 +4,30 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./index.css";
 
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
 
 import Home from "./pages/Home";
 import Quiz from "./pages/Quiz";
 import Result from "./pages/Result";
 import Mocks from "./pages/Mocks";
 
-import { AuthProvider } from "./context/Auth";
-
-function Layout() {
+function App() {
   return (
-    <>
-      <Navbar />
-      <div className="max-w-6xl mx-auto p-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/quiz" element={<Quiz />} />
-          <Route path="/result" element={<Result />} />
-          <Route path="/mocks" element={<Mocks />} />
-        </Routes>
-      </div>
-    </>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/result" element={<Result />} />
+        <Route path="/mocks" element={<Mocks />} />
+      </Routes>
+    </Layout>
   );
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
-    </AuthProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
