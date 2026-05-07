@@ -4,31 +4,24 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./index.css";
 
-import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Quiz from "./pages/Quiz";
+import Result from "./pages/Result";
 
-function AppLayout() {
+function App() {
   return (
-    <>
-      <Navbar />
-
-      <div className="max-w-5xl mx-auto p-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/quiz" element={<Quiz />} />
-        </Routes>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/result" element={<Result />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-ReactDOM.createRoot(
-  document.getElementById("root")!
-).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AppLayout />
-    </BrowserRouter>
+    <App />
   </React.StrictMode>
 );
